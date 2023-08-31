@@ -1,0 +1,76 @@
+generator client {
+    provider        = "prisma-client-js"
+    previewFeatures = ["jsonProtocol"]
+}
+
+datasource db {
+    provider          = "postgresql"
+    url               = env("POSTGRES_PRISMA_URL") // uses connection pooling
+    directUrl         = env("POSTGRES_URL_NON_POOLING") // uses a direct connection
+    shadowDatabaseUrl = env("POSTGRES_URL_NON_POOLING") // used for migrations
+}
+
+model User {
+    id        String    @id @default(cuid())
+    firstName String
+    lastName  String
+    username  String    @unique
+    email     String    @unique
+    password  String    @db.VarChar(200)
+   
+    image     String?   @db.VarChar(255) @default("https://res.cloudinary.com/dab5zmbvd/image/upload/v1691437826/undraw_monster_artist_2crm_kvoet0.svg")
+    location  String?   @db.VarChar(140) @default("Earth")
+    pronouns  String?   @default("N/A")
+    link      String?   @db.VarChar(140) @default("N/A")
+    bio       String?   @db.VarChar(140) @default("Hello World")
+    accounts  Account[]
+    sessions  Session[]
+    createdAt DateTime  @default(now()) @map(name: "created_at")
+    updatedAt DateTime  @updatedAt @map(name: "updated_at")
+    posts     Post[]
+}
+
+model Account {
+    id                String  @id @default(cuid())
+    userId            String
+    type              String
+    provider          String
+    providerAccountId String
+    refresh_token     String? @db.Text
+    access_token      String? @db.Text
+    expires_at        Int?
+    token_type        String?
+    scope             String?
+    id_token          String? @db.Text
+    session_state     String?
+
+    user User @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+    @@unique([provider, providerAccountId])
+}
+
+model Session {
+    id           String   @id @default(cuid())
+    sessionToken String   @unique @map("session_token")
+    userId       String   @map("user_id")
+    expires      DateTime
+    user         User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+}
+
+model VerificationToken {
+    id         Int      @id @default(autoincrement())
+    identifier String
+    token      String   @unique
+    expires    DateTime
+
+    @@unique([identifier, token])
+}
+
+model Post {
+    id        String  @id @default(cuid())
+    title     String
+    content   String
+    published Boolean @default(false)
+    author    User    @relation(fields: [authorId], references: [id])
+    authorId  String
+}
