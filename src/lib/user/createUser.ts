@@ -1,6 +1,6 @@
 import prisma from "../prisma";
 
-export async function createUser(data: User) {
+export async function createUser(data: User): Promise<User> {
   const {
     firstName,
     lastName,
