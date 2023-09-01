@@ -1,4 +1,3 @@
-import { Underdog } from "next/font/google"
 import prisma from "../prisma"
 
 
