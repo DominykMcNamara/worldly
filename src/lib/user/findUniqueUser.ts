@@ -12,11 +12,23 @@ export async function findUserByUsername(
   return user;
 }
 
-export async function findByEmail(email: string): Promise<User | null> {
+export async function findUserByEmail(email: string): Promise<User | null> {
   const user = await prisma.user.findUnique({
     where: {
       username: email,
     },
   });
   return user;
+}
+
+export async function findUserByEmailOrUsername(email: string, username: string): Promise<User | void>{
+  const findByUsername = await findUserByUsername(username)
+  if (findByUsername) {
+     return findByUsername
+  }
+  const findByEmail = await findUserByEmail(email)
+  if (findByEmail) {
+    return findByEmail
+  }
+  
 }
