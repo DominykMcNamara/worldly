@@ -30,6 +30,18 @@ export async function POST(request: Request) {
     );
   }
 
-  const newUser = await createUser(firstName)
-  NextResponse.json({ newUser });
+  const newUser = await createUser(
+    firstName,
+    lastName,
+    username,
+    email,
+    password,
+    image,
+    location,
+    pronouns,
+    bio,
+    link
+  );
+  console.log(newUser)
+  return NextResponse.json({ newUser });
 }
