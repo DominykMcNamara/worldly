@@ -1,7 +1,7 @@
 import cloudinary from "cloudinary";
 import './cloudinary'
 
-export async function imageUpload(image: string ): Promise<string> {
+export async function imageUpload(image: string, folder: string ): Promise<string> {
     const uploadResult = await cloudinary.v2.uploader.upload(image, {
         folder: 'user-profile'
     })
