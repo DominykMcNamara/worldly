@@ -1,9 +1,9 @@
 import cloudinary from "cloudinary";
 import './cloudinary'
 
-export async function uploadImage(image: string, folder: string ): Promise<string> {
+export async function imageUpload(image: string ): Promise<string> {
     const uploadResult = await cloudinary.v2.uploader.upload(image, {
-        folder: folder
+        folder: 'user-profile'
     })
 
     return uploadResult.secure_url
