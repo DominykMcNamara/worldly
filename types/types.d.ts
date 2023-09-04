@@ -37,7 +37,7 @@ type Account = {
   session_state: string?;
 };
 
-/* interface SignUpForm {
+interface SignUpForm {
     firstName: string;
     lastName: string;
     username: string;
@@ -49,4 +49,4 @@ type Account = {
     pronouns?: string;
     bio?: string;
   }
-  */
+  
