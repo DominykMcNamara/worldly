@@ -37,7 +37,7 @@ type Account = {
   session_state: string?;
 };
 
-interface SignUpForm {
+interface RegisterForm {
     firstName: string;
     lastName: string;
     username: string;

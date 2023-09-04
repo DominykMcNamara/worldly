@@ -239,10 +239,13 @@ export default function SignUpForm(): JSX.Element {
         />
       </div>
       {errorMessage && (
-        <p className="text-red-500 text-center">{errorMessage}</p>
+        <p cy-data="signup-error-message" className="text-red-500 text-center">
+          {errorMessage}
+        </p>
       )}
       {successMessage && (
         <Link
+          cy-data="login-link"
           href="/login"
           className="hover:underline text-green-500 text-center"
         >
@@ -250,6 +253,7 @@ export default function SignUpForm(): JSX.Element {
         </Link>
       )}
       <button
+        cy-data="signup-button"
         className="my-5 bg-green-500 w-96 mx-auto rounded-sm p-2 hover:opacity-90 ease-in"
         disabled={isLoading}
         type="submit"
