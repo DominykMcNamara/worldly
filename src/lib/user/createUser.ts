@@ -9,7 +9,7 @@ export async function createUser( firstName:string,
   location: string,
   pronouns:string,
   bio: string,
-  link: string,): Promise<User> {
+  link: string,): Promise<User | undefined> {
   
   const newUser = await prisma?.user.create({
     data: {

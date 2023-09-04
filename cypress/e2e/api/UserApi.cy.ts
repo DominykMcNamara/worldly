@@ -21,7 +21,7 @@ describe("creating a user", () => {
       expect(response.status).to.eq(409);
       expect(response.body).to.have.property(
         "message",
-        "Username already exists"
+        "Username or email already exists"
       );
     });
   });
@@ -39,7 +39,7 @@ describe("creating a user", () => {
       },
     }).then((response) => {
       expect(response.status).to.eq(409);
-      expect(response.body).to.have.property("message", "Email already in use");
+      expect(response.body).to.have.property("message", "Username or email already exists");
     });
   });
   it("Will throw an error if a the firstName is missing", () => {

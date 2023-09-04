@@ -2,8 +2,8 @@ import prisma from "../prisma";
 
 export async function findUserByUsername(
   username: string
-): Promise<User | null> {
-  const user = await prisma.user.findUnique({
+): Promise<Partial<User> | null | undefined> {
+  const user = await prisma?.user.findUnique({
     where: {
       username: username,
     },
@@ -12,16 +12,16 @@ export async function findUserByUsername(
   return user;
 }
 
-export async function findUserByEmail(email: string): Promise<User | null> {
-  const user = await prisma.user.findUnique({
+export async function findUserByEmail(email: string):Promise<Partial<User> | null | undefined> {
+  const user = await prisma?.user.findUnique({
     where: {
-      username: email,
+      email: email,
     },
   });
   return user;
 }
 
-export async function findUserByEmailOrUsername(email: string, username: string): Promise<User | void>{
+export async function findUserByEmailOrUsername(email: string, username: string): Promise<Partial<User>| void | null | undefined>{
   const findByUsername = await findUserByUsername(username)
   if (findByUsername) {
      return findByUsername
