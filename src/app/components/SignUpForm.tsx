@@ -59,10 +59,10 @@ export default function SignUpForm(): JSX.Element {
         lastName: formData.lastName,
         password: formData.password,
         image: formData.image,
-        location: formData.location,
-        pronouns: formData.pronouns,
-        link: formData.link.toLowerCase(),
-        bio: formData.bio,
+        location: formData.location || 'Earth',
+        pronouns: formData.pronouns || 'N/A',
+        link: formData.link.toLowerCase() || 'N/A',
+        bio: formData.bio || 'Hello World',
       }),
     });
 
@@ -246,7 +246,7 @@ export default function SignUpForm(): JSX.Element {
       {successMessage && (
         <Link
           cy-data="login-link"
-          href="/login"
+          href="/signin"
           className="hover:underline text-green-500 text-center"
         >
           {successMessage}
