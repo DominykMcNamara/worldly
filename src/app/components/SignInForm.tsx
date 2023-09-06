@@ -5,81 +5,87 @@ import { signIn, signOut } from "next-auth/react";
 import { useSearchParams, useRouter } from "next/navigation";
 
 export default function SignInForm() {
-    const router = useRouter()
-    const searchParams = useSearchParams();
-    const [email, setEmail] = useState("")
-    const [password, setPassword] = useState("")
-    const callbackUrl = searchParams?.get('callbackUrl') || '/signup'
-     const [isLoading, setIsLoading] = useState(false)
-    const [errorMessage, setErrorMessage] = useState("")
-    
- 
-    async function handleSubmit(e: React.FormEvent<HTMLFormElement>) {
-      e.preventDefault();
-      setIsLoading(true)
-      try {
-        const result = await signIn("credentials", {
-          email: email.toLowerCase(),
-          password: password,
-          redirect: false,
-          callbackUrl,
-        });
-        if (!result?.error) {
-          setIsLoading(false)
-          router.push(callbackUrl);
-        }
-        
-        else {
-          setIsLoading(false)
-          setErrorMessage("Email or password is incorrect");
-        }
-      } catch (err) {
-        console.log(err);
+  const router = useRouter();
+  const searchParams = useSearchParams();
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
+  const callbackUrl = searchParams?.get("callbackUrl") || "/signup";
+  const [isLoading, setIsLoading] = useState(false);
+  const [errorMessage, setErrorMessage] = useState("");
+
+  async function handleSubmit(e: React.FormEvent<HTMLFormElement>) {
+    e.preventDefault();
+    setIsLoading(true);
+    try {
+      const result = await signIn("credentials", {
+        email: email.toLowerCase(),
+        password: password,
+        redirect: false,
+        callbackUrl,
+      });
+      if (!result?.error) {
+        setIsLoading(false);
+        router.push(callbackUrl);
+      } else {
+        setIsLoading(false);
+        setErrorMessage("Email or password is incorrect");
       }
+    } catch (err) {
+      console.log(err);
     }
-  
+  }
+
   return (
     <>
       <form
         onSubmit={handleSubmit}
-        className="flex flex-col my-5 w-96 mx-auto p-5 bg-slate-200 rounded-lg"
+        className="flex flex-col mx-auto my-5 p-10 bg-slate-200 rounded-lg"
       >
-        <input
-          className="my-5 p-2 outline-none rounded-sm"
-          onChange={(e) => setEmail(e.target.value)}
-          name='email'
-          value={email}
-          type="text"
-          placeholder="email"
-          cy-data="login-email"
-          required
-        />
-        <input
-          className="my-5 p-2 outline-none rounded-sm"
-          type="password"
-          placeholder="password"
-          onChange={(e) => setPassword(e.target.value)}
-          name="password"
-          value={password}
-          cy-data="login-password"
-          required
-        />
-        {errorMessage && <p className="text-center text-red-500">{errorMessage}</p>}
+        <div className="flex flex-col">
+          <label className="" htmlFor="email">
+            Email
+          </label>
+          <input
+            className="my-5 p-2 rounded-sm"
+            onChange={(e) => setEmail(e.target.value)}
+            name="email"
+            value={email}
+            type="text"
+            cy-data="login-email"
+            required
+          />
+        </div>
+        <div className="flex flex-col">
+          <label htmlFor="password">Password</label>
+          <input
+            className="my-5 p-2 outline-none rounded-sm"
+            type="password"
+            placeholder="password"
+            onChange={(e) => setPassword(e.target.value)}
+            name="password"
+            value={password}
+            cy-data="login-password"
+            required
+          />
+        </div>
+        {errorMessage && (
+          <p className="text-center text-red-500">{errorMessage}</p>
+        )}
         <button
-        disabled={isLoading}
+          disabled={isLoading}
           cy-data="login-button"
-          className="bg-violet-500 p-2 text-slate-100 rounded-sm hover:opacity-90"
+          className="my-5 bg-green-500 w-96 mx-auto rounded-sm p-2 hover:opacity-90 ease-in"
         >
-          {isLoading ? 'Logging in...' : 'Login'}
+          {isLoading ? "Logging in..." : "Login"}
         </button>
       </form>
       <Link
         cy-data="login-signup"
-        className="text-center no-underline hover:underline my-5"
+        className="no-underline hover:underline my-5 text-center"
         href="/signup"
       >
         Dont have an account? Create a free account here
       </Link>
     </>
   );
-  }
+}
