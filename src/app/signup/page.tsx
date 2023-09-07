@@ -1,6 +1,6 @@
 import React from "react";
 import SignUpForm from "../components/SignUpForm";
-export default function page() {
+export default function SignUp() {
     return (
     <section id="signUpPage" className="p-5 min-h-[100vh] flex flex-col justify-center">
     
