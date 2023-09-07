@@ -7,19 +7,27 @@ import { useSearchParams, useRouter } from "next/navigation";
 export default function SignInForm() {
   const router = useRouter();
   const searchParams = useSearchParams();
-  const [email, setEmail] = useState("");
-  const [password, setPassword] = useState("");
+ 
   const callbackUrl = searchParams?.get("callbackUrl") || "/signup";
   const [isLoading, setIsLoading] = useState(false);
   const [errorMessage, setErrorMessage] = useState("");
 
+  const [formData, setFormData] = useState({
+    email: '',
+    password: ''
+  })
+
+  function handleFormInputChange(e: ChangeEvent<HTMLInputElement>): void {
+    e.preventDefault();
+    setFormData({ ...formData, [e.target.name]: e.target.value });
+  }
   async function handleSubmit(e: React.FormEvent<HTMLFormElement>) {
     e.preventDefault();
     setIsLoading(true);
     try {
       const result = await signIn("credentials", {
-        email: email.toLowerCase(),
-        password: password,
+        email: formData.email.toLowerCase(),
+        password: formData.password,
         redirect: false,
         callbackUrl,
       });
@@ -47,9 +55,9 @@ export default function SignInForm() {
           </label>
           <input
             className="my-5 p-2 rounded-sm"
-            onChange={(e) => setEmail(e.target.value)}
+            onChange={handleFormInputChange}
             name="email"
-            value={email}
+            value={formData.email}
             type="text"
             cy-data="login-email"
             required
@@ -61,9 +69,9 @@ export default function SignInForm() {
             className="my-5 p-2 outline-none rounded-sm"
             type="password"
             placeholder="password"
-            onChange={(e) => setPassword(e.target.value)}
+            onChange={handleFormInputChange}
             name="password"
-            value={password}
+            value={formData.password}
             cy-data="login-password"
             required
           />
@@ -80,7 +88,7 @@ export default function SignInForm() {
         </button>
       </form>
       <Link
-        cy-data="login-signup"
+        cy-data="sign-up-link"
         className="no-underline hover:underline my-5 text-center"
         href="/signup"
       >

@@ -27,7 +27,7 @@ Cypress.Commands.add(
 );
 
 Cypress.Commands.add("login", (email: string, password: string) => {
-  cy.visit("http://localhost:3000/login");
+  cy.visit("http://localhost:3000/signin");
   cy.get('[cy-data="login-email"]').focus()
   cy.get('[cy-data="login-email"]').type(email);
   cy.get('[cy-data="login-password"]').type(password);
