@@ -6,15 +6,17 @@ import UserCard from "../components/UserCard";
 export default  function MyProfile() {
   const { data: session, status } = useSession()
 
+  
+
   return (
     <div>
-      {status === 'authenticated' ? (
+      {status === 'loading' && <h1 className='text-center'>Loading...</h1>}
+      {status === 'authenticated' && session.user && (
         <div className="float-right my-10 mx-60">
-        <UserCard userProfile={session?.user} />
+        <UserCard userProfile={session.user} />
         </div>
-      ) : (
-        <Link href="/signin">You must sign in</Link>
       )}
+      {status === 'unauthenticated' && <Link href='/signin'>Sign in to continue</Link> }
     </div>
   );
 }

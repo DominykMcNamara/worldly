@@ -1,5 +1,4 @@
 "use client";
-
 import { ChangeEvent, FormEvent, useState, useEffect } from "react";
 import Link from "next/link";
 import { pronouns } from "@/lib/pronounData";

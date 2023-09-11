@@ -37,7 +37,8 @@ export async function POST(request: Request) {
 
   const hashedPassword = await hashPassword(password);
   const profilePic = await imageUpload(
-    "https://res.cloudinary.com/dab5zmbvd/image/upload/v1691437826/undraw_monster_artist_2crm_kvoet0.svg",
+    image ||
+      "https://res.cloudinary.com/dab5zmbvd/image/upload/v1691437826/undraw_monster_artist_2crm_kvoet0.svg",
     "user-profiles"
   );
   const newUser = await createUser(
@@ -59,8 +60,9 @@ export async function POST(request: Request) {
       "credentials",
       newUser.id
     );
-    return NextResponse.json({newUser: newUser, newAccount: newAccount }, { status: 200 });
-    
+    return NextResponse.json(
+      { newUser: newUser, newAccount: newAccount },
+      { status: 200 }
+    );
   }
-
 }
