@@ -2,6 +2,7 @@ import "./globals.css";
 import type { Metadata } from "next";
 import { Poppins } from "next/font/google";
 import Navbar from "./components/NavBar";
+import AuthProvider from "@/providers/AuthProvider";
 
 const poppins = Poppins({
   subsets: ["latin"],
@@ -22,10 +23,11 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body
-        className={`bg-stone-100 text-slate-950 ${poppins.className} min-h-[100vh] min-w-[100vw] max-w-[100vw]`}
-      >
+        className={`bg-stone-100 text-slate-950 ${poppins.className} min-h-[100vh] min-w-[100vw] max-w-[100vw]`}>
+        <AuthProvider>
         <Navbar />
         {children}
+        </AuthProvider>
       </body>
     </html>
   );

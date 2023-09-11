@@ -2,8 +2,7 @@ import type { NextAuthOptions } from "next-auth";
 import prisma from "../prisma";
 import CredentialsProvider from "next-auth/providers/credentials";
 import { PrismaAdapter } from "@next-auth/prisma-adapter";
-import { findUserByEmail } from "../user/findUniqueUser";
-import { comparePasword } from "../user/comparePassword";
+
 import bcrypt from "bcrypt";
 
 export const authOptions: NextAuthOptions = {
@@ -24,21 +23,33 @@ export const authOptions: NextAuthOptions = {
       },
 
       async authorize(credentials) {
-        const res = await fetch("http://localhost:3000/api/credentials", {
-          method: "POST",
-          body: JSON.stringify({
-            email: credentials?.email,
-            password: credentials?.password,
-          }),
-          headers: { "Content-Type": "application/json" },
-        });
-
-        const user = await res.json();
-        if (res.ok && user) {
-          console.log(user);
-          return user;
+        if (!credentials?.email || !credentials.password) {
+          return null;
         }
-        return null;
+        const user = await prisma?.user.findUnique({
+          where: {
+            email: credentials.email,
+          },
+        });
+        if (
+          !user ||
+          !(await bcrypt.compare(credentials.password, user.password))
+        ) {
+          return null;
+        }
+        console.log(user);
+        return {
+          id: user.id,
+          firstName: user.firstName,
+          lastName: user.lastName,
+          username: user.username,
+          email: user.email,
+          image: user.image,
+          bio: user.bio,
+          link: user.link,
+          location: user.location,
+          pronouns: user.pronouns,
+        };
       },
     }),
   ],

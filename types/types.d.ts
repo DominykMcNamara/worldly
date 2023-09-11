@@ -14,6 +14,18 @@ type User = {
   updatedAt: date;
 };
 
+type UserProfile = {
+  firstName?: string | null | undefined;
+  lastName?: string | null | undefined;
+  username?: string | null | undefined;
+  email?: string | null | undefined;
+  location?: string | null | undefined;
+  bio?: string | null | undefined;
+  link?: string | url | null | undefined;
+  pronouns?: string | null | undefined;
+  image?: string | null | undefined;
+} | undefined;
+
 type BlogPost = {
   id: string;
   title: string;
@@ -48,5 +60,10 @@ interface RegisterForm {
     location?: string;
     pronouns?: string;
     bio?: string;
+  }
+
+  interface Credentials {
+    email: string;
+    password: string;
   }
   

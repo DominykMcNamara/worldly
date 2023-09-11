@@ -8,7 +8,7 @@ export default function SignInForm() {
   const router = useRouter();
   const searchParams = useSearchParams();
  
-  const callbackUrl = searchParams?.get("callbackUrl") || "/signup";
+  const callbackUrl = searchParams?.get("callbackUrl") || "/myprofile";
   const [isLoading, setIsLoading] = useState(false);
   const [errorMessage, setErrorMessage] = useState("");
 
