@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, ChangeEvent } from "react";
 
 export default function CreateBlogPost() {
   const [showModal, setShowModal] = useState(false);
@@ -8,6 +8,18 @@ export default function CreateBlogPost() {
   const [success, setSuccess] = useState("");
   const [error, setError] = useState("");
 
+  const [formData, setFormData] = useState({
+    title: "",
+    content: "",
+  });
+
+  function handleFormInputChange(
+    e: ChangeEvent<HTMLInputElement> | ChangeEvent<HTMLTextAreaElement>
+  ): void {
+    e.preventDefault();
+    setFormData({ ...formData, [e.target.name]: e.target.value });
+  }
+
   let modal = showModal ? (
     <>
       <div
@@ -16,20 +28,23 @@ export default function CreateBlogPost() {
       >
         <div className=" w-[75vw] my-10 rounded-lg bg-gray-200 flex flex-col mx-auto">
           <form className=" mx-auto flex flex-col items-center gap-[1rem] p-[1rem] ">
+            <label htmlFor="title">Title</label>
             <input
               className="my-5 w-[50vw] p-2 outline-none rounded-sm mx-5"
               type="text"
-              name="post-title"
-              onChange={(e) => setTitle(e.target.value)}
+              name="title"
+              value={formData.title}
+              onChange={handleFormInputChange}
               placeholder="Title..."
             />
-
+            <label htmlFor="content">Content</label>
             <textarea
               className="w-[50vw] my-5 p-2 outline-none rounded-sm mx-5"
               rows={10}
               cols={30}
-              name="post-content"
-              onChange={(e) => setContent(e.target.value)}
+              name="content"
+              value={formData.content}
+              onChange={handleFormInputChange}
               placeholder="Content..."
             />
 
@@ -57,10 +72,7 @@ export default function CreateBlogPost() {
       onClick={() => setShowModal(true)}
       className="bg-cyan-500 drop-shadow-xl w-[25dvw] hover:opacity-80 rounded-sm  cursor-pointer text-center mx-auto mt-20"
     >
-      <button
-        className="my-10"
-        type="button"
-      >
+      <button className="my-10" type="button">
         Create Post
       </button>
     </div>

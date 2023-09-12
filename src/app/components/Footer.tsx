@@ -2,7 +2,7 @@ import Link from "next/link";
 import Image from "next/image";
 export default function Footer() {
   return (
-    <footer className="bg-stone-200 p-4 fixed bottom-0 w-screen">
+    <footer className="bg-stone-200 p-4  bottom-0 w-screen">
         <div className="flex flex-row justify-around">
       <div className="flex  flex-row">
       <Image
@@ -14,8 +14,6 @@ export default function Footer() {
        
         <h1 className="text-3xl grid place-content-center">
           
-         
-        
           Worldly
         </h1>
         </div>
