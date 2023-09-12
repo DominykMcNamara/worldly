@@ -3,6 +3,7 @@ import type { Metadata } from "next";
 import { Poppins } from "next/font/google";
 import Navbar from "./components/NavBar";
 import AuthProvider from "@/providers/AuthProvider";
+import Footer from "./components/Footer";
 
 const poppins = Poppins({
   subsets: ["latin"],
@@ -21,12 +22,13 @@ export default function RootLayout({
   children: React.ReactNode;
 }) {
   return (
-    <html lang="en">
+    <html lang="en" className='bg-stone-100 text-slate-950 scroll-smooth'>
       <body
-        className={`bg-stone-100 text-slate-950 ${poppins.className} min-h-[100vh] min-w-[100vw] max-w-[100vw]`}>
+        className={`${poppins.className} `}>
         <AuthProvider>
         <Navbar />
         {children}
+        <Footer />
         </AuthProvider>
       </body>
     </html>
