@@ -2,7 +2,7 @@
 import { useSession } from "next-auth/react";
 import Link from "next/link";
 import UserCard from "../components/UserCard";
-import CreateBlogPost from "../components/CreateBlogPost";
+import CreatePost from "../components/CreatePost";
 export default function MyProfile() {
   const { data: session, status } = useSession();
 
@@ -16,7 +16,7 @@ export default function MyProfile() {
             <UserCard userProfile={session.user} />
             </div>
             <section id="feed">
-            <CreateBlogPost />
+            <CreatePost />
           </section>
         
           

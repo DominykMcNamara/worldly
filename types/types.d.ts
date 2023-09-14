@@ -26,12 +26,14 @@ type UserProfile = {
   image?: string | null | undefined;
 } | undefined;
 
-type BlogPost = {
+type Post = {
   id: string;
   title: string;
   content: string;
   author: User;
   authorId: string;
+  createdAt: date;
+  updatedAt: date;
 };
 
 type Account = {
