@@ -1,12 +1,12 @@
-import { useState, ChangeEvent } from "react";
+import { useState, ChangeEvent, FormEvent } from "react";
 
 export default function CreateBlogPost() {
   const [showModal, setShowModal] = useState(false);
   const [title, setTitle] = useState("");
   const [content, setContent] = useState("");
-  const [loading, setLoading] = useState(false);
-  const [success, setSuccess] = useState("");
-  const [error, setError] = useState("");
+  const [isLoading, setIsLoading] = useState(false);
+  const [successMessage, setSuccessMessage] = useState("");
+  const [errorMessage, setErrorMessage] = useState("");
 
   const [formData, setFormData] = useState({
     title: "",
@@ -20,6 +20,36 @@ export default function CreateBlogPost() {
     setFormData({ ...formData, [e.target.name]: e.target.value });
   }
 
+  const handleSubmit = async (e: FormEvent<HTMLFormElement>) => {
+    e.preventDefault();
+    setIsLoading(true);
+    setErrorMessage("");
+    setSuccessMessage("");
+    const res = await fetch("http://localhost:3000/api/posts", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({
+        title: formData.title,
+        content: formData.content,
+      }),
+    });
+    if (res.status === 401) {
+      setIsLoading(false);
+      setErrorMessage("Unauthorized");
+    }
+    if (res.status === 500) {
+      console.log(res);
+      setIsLoading(false);
+      setErrorMessage("Error");
+    } else if (res.status === 201) {
+      setIsLoading(false);
+      setErrorMessage("");
+      setSuccessMessage("New Post created!");
+    }
+  };
+
   let modal = showModal ? (
     <>
       <div
@@ -27,7 +57,10 @@ export default function CreateBlogPost() {
         className=" bg-gray-800/50 min-h-[100vh] z-50 min-w-[100vw] mx-auto fixed right-0  flex flex-col"
       >
         <div className=" w-[75vw] my-10 rounded-lg bg-gray-200 flex flex-col mx-auto">
-          <form className=" mx-auto flex flex-col items-center gap-[1rem] p-[1rem] ">
+          <form
+            className=" mx-auto flex flex-col items-center gap-[1rem] p-[1rem] "
+            onSubmit={handleSubmit}
+          >
             <label htmlFor="title">Title</label>
             <input
               className="my-5 w-[50vw] p-2 outline-none rounded-sm mx-5"
@@ -51,16 +84,20 @@ export default function CreateBlogPost() {
             <button className="bg-cyan-500 rounded-sm text-slate-100 p-3 hover:opacity-90 hover:underline drop-shadow-xl">
               Save Draft
             </button>
-            {loading && <p className="text-center">Please Wait...</p>}
-            {error && <p className="text-center text-red-500">{error}</p>}
-            {success && <p className="text-center text-green-500">{success}</p>}
+            {isLoading && <p className="text-center">Please Wait...</p>}
+            {errorMessage && (
+              <p className="text-center text-red-500">{errorMessage}</p>
+            )}
+            {successMessage && (
+              <p className="text-center text-green-500">{successMessage}</p>
+            )}
             <button
-              disabled={loading}
+              disabled={isLoading}
               className="bg-blue-500 rounded-sm text-slate-100 p-3 hover:opacity-90 hover:underline drop-shadow-xl"
             >
               Publish
             </button>
-            <button disabled={loading} onClick={() => setShowModal(false)}>
+            <button disabled={isLoading} onClick={() => setShowModal(false)}>
               Close
             </button>
           </form>

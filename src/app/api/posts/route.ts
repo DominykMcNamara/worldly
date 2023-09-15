@@ -4,9 +4,10 @@ import { NextResponse } from "next/server";
 import { createPost } from "@/lib/posts/createPost";
 
 
-export async function POST(request: Request, response: Response) {
+export async function POST(request: Request) {
    const  { title, content } = await request.json()
    const session = await getServerSession(authOptions)
+  
    if(!session || !session.user) {
       return NextResponse.json({message: 'Unauthorized'}, {status: 401})
    }

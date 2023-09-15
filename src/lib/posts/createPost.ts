@@ -13,6 +13,7 @@ export async function createPost(title: string, content: string, authorEmail: st
     
     }
  })
+ console.log(newPost)
  return newPost
 
 }
