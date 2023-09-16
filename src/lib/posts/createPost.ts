@@ -1,7 +1,7 @@
 import prisma from "../prisma";
 
 
-export async function createPost(title: string, content: string, authorEmail: string | undefined | null):Promise<Partial<Post> | undefined | null>{
+export async function createPost(title: string, content: string, authorEmail: string | undefined | null, published: boolean):Promise<Partial<Post> | undefined | null>{
  if (!title || !content || !authorEmail || !prisma) {
   return null
  }
@@ -10,6 +10,7 @@ export async function createPost(title: string, content: string, authorEmail: st
       title,
       content,
       author: { connect: { email: authorEmail } },
+      published
     
     }
  })

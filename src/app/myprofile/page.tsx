@@ -1,10 +1,13 @@
 "use client";
+import { useState } from "react";
 import { useSession } from "next-auth/react";
 import Link from "next/link";
 import UserCard from "../components/UserCard";
 import CreatePost from "../components/CreatePost";
+import MyPublishedPosts from "../components/MyPublishedPosts";
 export default function MyProfile() {
   const { data: session, status } = useSession();
+  const [feedType, setFeedType] = useState("published-posts")
 
   return (
     <div>
@@ -17,6 +20,7 @@ export default function MyProfile() {
             </div>
             <section id="feed">
             <CreatePost />
+            <MyPublishedPosts />
           </section>
         
           
