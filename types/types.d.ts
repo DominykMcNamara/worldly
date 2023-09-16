@@ -30,7 +30,6 @@ type Post = {
   id: string;
   title: string;
   content: string;
-  author: User;
   authorId: string;
   createdAt: date;
   updatedAt: date;
