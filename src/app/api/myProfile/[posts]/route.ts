@@ -27,7 +27,7 @@ export async function GET(request: NextApiRequest) {
     const draftedPosts = await getDraftPostByUserId(session.user.id);
     if (posts.length === 0) {
       return NextResponse.json(
-        { message: "You have no Drafted posts" },
+        { message: "You have no drafted posts" },
         { status: 200 }
       );
     }
